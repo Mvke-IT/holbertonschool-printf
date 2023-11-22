@@ -1,63 +1,49 @@
 #include "main.h"
-#include <stddef.h>
-#include <stdarg.h>
-void print_buffer(char buffer[], int *buff_ind);
-
 /**
- * _printf - printf func
- * @format: format
- * Return: printed characters
+ * _printf - takes a string and arguments from each '%'
+ * @format: initial string
+ * @...: variable list of args
+ * Return: number of characters printed
  */
 int _printf(const char *format, ...)
 {
-	int i, printed = 0, printed_chars = 0;
-	int buff_ind;
-	va_list list;
-	char buffer[BUFF_SIZE];
-
+	va_list a;
+	int count = 0, j, i;
+	_printf_functions types[] = {{"c", _printf_char},
+		{"s", _print_string}, {"i", _printf_char},
+		{"d", _print_int}, {"%", _print_mod},
+		{NULL, NULL}};
 	if (format == NULL)
-		return (-1);
-
-	va_start(list, format);
-
-	for (i = 0; format && format[i] != '\0'; i++)
 	{
-		if (format[i] != '%')
+		return (-1);
+	}
+	va_start(a, format);
+	for (i = 0; format[i]; i++)
+	{
+		if (format[i] == '%')
 		{
-			buffer[buff_ind++] = format[i];
-
-			if (buff_ind == BUFF_SIZE)
-
-				print_buffer(buffer, &buff_ind);
-
-			printed_chars++;
-		}
-
+			while (format[++i] == ' ')
+			;
+			for (j = 0; types[j].convertion_specifier != NULL; j++)
 			{
-			printed = handle_print(format, &i);
-
-			if (printed == -1)
-				return (-1);
-
-			printed_chars += printed;
+				if (format[i] == *types[j].convertion_specifier)
+				{
+					count += types[j].function(a);
+					break;
+				}
+			}
+			if (types[j].convertion_specifier == NULL)
+			{
+				write(1, &format[i], 1);
+				count++;
 			}
 		}
-	print_buffer(buffer, &buff_ind);
-
-	va_end(list);
-	return (printed_chars);
-	
-}
-/**
- * print_buffer - prints the context if the buffers if they exist
- * @buffer: array
- * @buff_ind: index to add next char
- */
-void print_buffer(char buffer[], int *buff_ind)
-{
-	if (*buff_ind > 0)
-
-		write(1, &buffer[0], *buff_ind);
-
-	buff_ind = 0;
+		else
+		{
+			write(1, &format[i], 1);
+			count++;
+		}
+	}
+	va_end(a);
+	return (count);
 }
