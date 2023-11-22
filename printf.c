@@ -1,63 +1,90 @@
 #include "main.h"
-#include <stddef.h>
-#include <stdarg.h>
-void print_buffer(char buffer[], int *buff_ind);
 
 /**
- * _printf - printf func
- * @format: format
- * Return: printed characters
+ * _printf - takes a string and args of each '%'
+ * and prints them
+ * @format: initial string
+ * @...: variable list of arguments
+ * Return: number of characters printed.
  */
+
 int _printf(const char *format, ...)
 {
-	int i, printed = 0, printed_chars = 0;
-	int buff_ind;
-	va_list list;
-	char buffer[BUFF_SIZE];
+	va_list a;
+	int count = 0, j, i;
+	_printf_functions types[] = {{"c", _print_char},
+		{"s", _print_string},
+		{"i", _print_int},
+		{"d", _print_int},
+		{"%", _print_mod},
+		{NULL, NULL}};
 
-	if (format == NULL)
-		return (-1);
-
-	va_start(list, format);
-
-	for (i = 0; format && format[i] != '\0'; i++)
-	{
-		if (format[i] != '%')
-		{
-			buffer[buff_ind++] = format[i];
-
-			if (buff_ind == BUFF_SIZE)
-
-				print_buffer(buffer, &buff_ind);
-
-			printed_chars++;
-		}
-
-			{
-			printed = handle_print(format, &i);
-
-			if (printed == -1)
-				return (-1);
-
-			printed_chars += printed;
-			}
-		}
-	print_buffer(buffer, &buff_ind);
-
-	va_end(list);
-	return (printed_chars);
-	
-}
-/**
- * print_buffer - prints the context if the buffers if they exist
- * @buffer: array
- * @buff_ind: index to add next char
- */
-void print_buffer(char buffer[], int *buff_ind)
+/* Check if the format string is NULL. If it is, return -1. */
+if (format == NULL)
 {
-	if (*buff_ind > 0)
+  return (-1);
+}
 
-		write(1, &buffer[0], *buff_ind);
+/* Initialize the variable argument list. */
+va_start(a, format);
 
-	buff_ind = 0;
+/* Iterate through the characters in the format string. */
+for (i = 0; format[i]; i++)
+{
+
+  /* If the current character is a '%', then skip any whitespace characters
+     and then check if the next character is a valid conversion specifier. */
+  if (format[i] == '%')
+  {
+
+    /* Skip any whitespace characters after the '%' character. */
+    while (format[++i] == ' ')
+      ;
+
+    /* Iterate through the _printf_functions array and check if the current
+       character is a valid conversion specifier. If it is, then call the
+       corresponding function to print the argument. */
+    for (j = 0; types[j].convertion_specifier != NULL; j++)
+    {
+
+      /* Check if the current character matches the conversion specifier of
+         the current function in the array. */
+      if (format[i] == *types[j].convertion_specifier)
+      {
+
+        /* Call the function to print the argument. */
+        count += types[j].function(a);
+        break;
+      }
+    }
+
+    /* If the current character is not a valid conversion specifier, then
+       simply print it to stdout. */
+    if (types[j].convertion_specifier == NULL)
+    {
+
+      /* Write the current character to stdout. */
+      write(1, &format[i], 1);
+
+      /* Increment the count of characters printed. */
+      count++;
+    }
+  }
+  /* If the current character is not a '%', then simply print it to stdout. */
+  else
+  {
+    /* Write the current character to stdout. */
+    write(1, &format[i], 1);
+
+    /* Increment the count of characters printed. */
+    count++;
+  }
+}
+
+/* Close the variable argument list. */
+va_end(a);
+
+/* Return the number of characters printed. */
+return (count);
+
 }
