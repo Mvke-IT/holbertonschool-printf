@@ -1,7 +1,7 @@
 #include "main.h"
 
 /**
- * _print_char - prints character from the corresponding
+ * _printf_char - prints character from the corresponding
  * argument from the arguments list
  * @a: list of arguments, va_list
  *
