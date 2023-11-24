@@ -7,6 +7,8 @@
 #include <string.h>
 #include <stdio.h>
 
+int _printf(const char *format, ...);
+
 /**
  * struct _printf_function - interface for printing
  * @convertion_specifier: char that identifies the type of arg
