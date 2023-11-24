@@ -2,36 +2,49 @@
 
 .SH NAME
 _printf - formatted output conversion
+This section provides the name of the function, which is _printf.
+
 
 .SH SYPNOSIS
 #include "main.h"
+#include <stdio.h>
 
 int _printf(const char *format, ...);
 
 _printf("%CONVERSION", VAR);
 
 _printf("TEXT");
+This section provides the function's prototype, which tells you what parameters the function takes and what type of value it returns.
+In this case, _printf takes a format string and a variable number of arguments, and it returns an int.
+
 
 .SH DESCRIPTION
-The function _printf() produces output according to a format. This function writes the output under the control of a format string that specifies how subsequent argument are converted for output.
+The function _printf() is a function that takes a format 
+string and produces formatted output based on that format string
 
 .SH CONVERSION SPECIFIERS
-A character that specifies the type of conversion to be applied. The conversion specifier and their meaning are:
+A conversion specifier is a character in a format string that specifies
+the type of conversion to be applied in an argument. Such as the following:
 
-.IP "d, i"
-An int argument is converted to signed decimal notation. Gives the minimum number of digits that must appear.
+.IP "i, d"
+These specifiers convert integer arguments to decimanl notation.
+They ensure that a minimum number of digits are displayed.
 
 .IP c
-An int argument is converted to signed decimal notation. Gives the minimum number of digit that must appear.
+This specifier converts integer arguments to characters.
+It also ensures that a minimum number of digits are displayed.
 
 .IP S
-A const char * argument, that is expected to be a pointer to a string, will be a written up to (but not including) a terminating null byte('\0').
+This specifier converts string arguments to strings.
+It displays the entire string, up to the terminating null byte (\0).
 
 .IP %
-A '%' is written. No argument converted. The complete conversion specification is '%%'.
+This speicifier literally prints a % character.
+It doesn't convert any argument.
 
-.SH RETURN VALUE
-Upon successful return, this function returns the number of characters printed (excluding the null byte used to end output to string). If an output error is encountered, a negative value is returned.
+.SH RETURN
+This function returns the number of characters that were printed, or a negative
+value if an error occured. Besides the null byte used to end output to string.
 
 .SH BUGS
 No known bugs.
