@@ -7,7 +7,7 @@
  *
  * Return: the number of printed chars, int
  */
-int _printf_char(va_list a)
+int _print_char(va_list a)
 {
 	/* Get the character from the arguments list */
 	char c = va_arg(a, int);

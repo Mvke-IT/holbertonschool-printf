@@ -1,0 +1,53 @@
+.TH _printf 3 "November 2023" Linux "USER MANUALS"
+
+.SH NAME
+_printf - formatted output conversion
+This section provides the name of the function, which is _printf.
+
+
+.SH SYPNOSIS
+#include "main.h"
+#include <stdio.h>
+
+int _printf(const char *format, ...);
+
+_printf("%CONVERSION", VAR);
+
+_printf("TEXT");
+This section provides the function's prototype, which tells you what parameters the function takes and what type of value it returns.
+In this case, _printf takes a format string and a variable number of arguments, and it returns an int.
+
+
+.SH DESCRIPTION
+The function _printf() is a function that takes a format 
+string and produces formatted output based on that format string
+
+.SH CONVERSION SPECIFIERS
+A conversion specifier is a character in a format string that specifies
+the type of conversion to be applied in an argument. Such as the following:
+
+.IP "i, d"
+These specifiers convert integer arguments to decimanl notation.
+They ensure that a minimum number of digits are displayed.
+
+.IP c
+This specifier converts integer arguments to characters.
+It also ensures that a minimum number of digits are displayed.
+
+.IP S
+This specifier converts string arguments to strings.
+It displays the entire string, up to the terminating null byte (\0).
+
+.IP %
+This speicifier literally prints a % character.
+It doesn't convert any argument.
+
+.SH RETURN
+This function returns the number of characters that were printed, or a negative
+value if an error occured. Besides the null byte used to end output to string.
+
+.SH BUGS
+No known bugs.
+
+.SH SEE ALSO
+.BR printf(3)
